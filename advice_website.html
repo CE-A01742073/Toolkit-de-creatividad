@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Advice</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        .advice-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .advice-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .advice-button:active {
+            transform: translateY(0);
+        }
+
+        .advice-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 25px;
+            border-radius: 10px;
+            min-height: 100px;
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .advice-box.show {
+            display: block;
+        }
+
+        .advice-text {
+            color: #555;
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💡 Daily Advice</h1>
+        <button class="advice-button" onclick="showAdvice()">Get Advice</button>
+        <div class="advice-box" id="adviceBox">
+            <p class="advice-text" id="adviceText"></p>
+        </div>
+    </div>
+
+    <script>
+        const tips = [
+            "Start your day with a glass of water to stay hydrated.",
+            "Take regular breaks when working - try the 20-20-20 rule for eye strain.",
+            "Write down three things you're grateful for each day.",
+            "Learn something new every day, even if it's just one small fact.",
+            "Practice deep breathing for 5 minutes to reduce stress.",
+            "Invest in experiences, not just things.",
+            "Read before bed instead of scrolling on your phone.",
+            "Call a friend or family member you haven't spoken to in a while.",
+            "Set boundaries with your time and energy.",
+            "Move your body for at least 30 minutes a day.",
+            "Cook a meal from scratch - it's healthier and more rewarding.",
+            "Save at least 10% of your income for the future.",
+            "Be kind to yourself - you're doing better than you think.",
+            "Listen more than you speak in conversations.",
+            "Declutter one area of your space each week.",
+            "Go outside and get some fresh air daily.",
+            "Learn to say 'no' to things that don't serve you.",
+            "Keep a journal to track your thoughts and progress.",
+            "Smile at strangers - kindness is contagious.",
+            "Plan your tomorrow the night before."
+        ];
+
+        function showAdvice() {
+            const adviceBox = document.getElementById('adviceBox');
+            const adviceText = document.getElementById('adviceText');
+            
+            const randomTip = tips[Math.floor(Math.random() * tips.length)];
+            
+            adviceText.textContent = randomTip;
+            adviceBox.classList.add('show');
+        }
+    </script>
+</body>
+</html>
