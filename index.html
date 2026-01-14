@@ -111,6 +111,8 @@
             min-height: 100px;
             display: none;
             animation: fadeIn 0.5s;
+            max-height: 600px;
+            overflow-y: auto;
         }
 
         .reto-box.show {
@@ -202,7 +204,6 @@
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return [];
       const parsed = JSON.parse(raw);
-      // basic validation: must be an array of strings
       if (!Array.isArray(parsed) || parsed.some(t => typeof t !== "string")) return [];
       return parsed;
     } catch {
@@ -237,15 +238,305 @@
     adviceBox.classList.add('show');
   }
 
-  function showReto() {
-    // Placeholder for future functionality
-    const retoBox = document.getElementById('retoBox');
-    const retoText = document.getElementById('retoText');
+  // Reto: La pregunta torcida & Piensa como poeta & Hazlo distinto hoy
+  const retos = ['torcida', 'poeta', 'distinto'];
+  let currentRetoType = '';
+  let currentRetoStep = 0;
+  let retoAnswers = [];
 
-    retoText.textContent = "Funcionalidad temporal";
-    retoBox.classList.add('show');
+  function showReto() {
+    const retoBox = document.getElementById('retoBox');
+
+    if (currentRetoStep === 0) {
+      // Choose random reto
+      currentRetoType = retos[Math.floor(Math.random() * retos.length)];
+      
+      if (currentRetoType === 'torcida') {
+        showTorcidaStep1();
+      } else if (currentRetoType === 'poeta') {
+        showPoetaStep1();
+      } else if (currentRetoType === 'distinto') {
+        showDistintoStep1();
+      }
+      
+      retoBox.classList.add('show');
+      currentRetoStep = 1;
+    }
+  }
+
+  // LA PREGUNTA TORCIDA
+  function showTorcidaStep1() {
+    const retoBox = document.getElementById('retoBox');
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">La pregunta torcida</h2>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">¿Cuál es tu problema?</p>
+        <textarea id="retoInput" placeholder="Escribe tu problema aquí..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+      </div>
+    `;
+  }
+
+  function showTorcidaStep2() {
+    const retoBox = document.getElementById('retoBox');
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">La pregunta torcida</h2>
+        <p style="color: #666; margin-bottom: 10px; font-size: 1em; font-weight: 600;">Primera versión:</p>
+        <p style="color: #999; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[0]}</p>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Reescribe tu problema cambiando las palabras:</p>
+        <textarea id="retoInput" placeholder="Escribe una nueva versión..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+      </div>
+    `;
+  }
+
+  function showTorcidaStep3() {
+    const retoBox = document.getElementById('retoBox');
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">La pregunta torcida</h2>
+        <p style="color: #666; margin-bottom: 10px; font-size: 1em; font-weight: 600;">Primera versión:</p>
+        <p style="color: #999; margin-bottom: 15px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[0]}</p>
+        <p style="color: #666; margin-bottom: 10px; font-size: 1em; font-weight: 600;">Segunda versión:</p>
+        <p style="color: #999; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[1]}</p>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Reescribe tu problema cambiando las palabras una vez más:</p>
+        <textarea id="retoInput" placeholder="Escribe una nueva versión..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+      </div>
+    `;
+  }
+
+  function showTorcidaStep4() {
+    const retoBox = document.getElementById('retoBox');
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">La pregunta torcida</h2>
+        <p style="color: #666; margin-bottom: 10px; font-size: 1em; font-weight: 600;">Primera versión:</p>
+        <p style="color: #999; margin-bottom: 15px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[0]}</p>
+        <p style="color: #666; margin-bottom: 10px; font-size: 1em; font-weight: 600;">Segunda versión:</p>
+        <p style="color: #999; margin-bottom: 15px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[1]}</p>
+        <p style="color: #666; margin-bottom: 10px; font-size: 1em; font-weight: 600;">Tercera versión:</p>
+        <p style="color: #999; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[2]}</p>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Una última versión, cambiando las palabras:</p>
+        <textarea id="retoInput" placeholder="Escribe una nueva versión..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+      </div>
+    `;
+  }
+
+  function showTorcidaStep5() {
+    const retoBox = document.getElementById('retoBox');
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">La pregunta torcida</h2>
+        <p style="color: #666; margin-bottom: 20px; font-size: 1em;">
+          <strong>¿Cuáles podrían ser las soluciones a tu problema?</strong>
+        </p>
+        <p style="color: #999; margin-bottom: 15px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.9em; line-height: 1.5;">
+          <strong>Última versión de tu pregunta:</strong><br>${retoAnswers[3]}
+        </p>
+        <p style="color: #666; margin-bottom: 10px; font-size: 0.95em;">Anota mínimo 5 soluciones (una por línea):</p>
+        <textarea id="retoInput" placeholder="1. Primera solución&#10;2. Segunda solución&#10;3. Tercera solución&#10;..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 120px;"></textarea>
+        <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
+      </div>
+    `;
+  }
+
+  // PIENSA COMO POETA
+  function showPoetaStep1() {
+    const retoBox = document.getElementById('retoBox');
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Piensa como poeta</h2>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Completa la frase:</p>
+        <p style="color: #666; margin-bottom: 10px; font-size: 0.95em;"><strong>Este problema es como ______ porque ______.</strong></p>
+        <p style="color: #666; margin-bottom: 15px; font-size: 0.9em;">Primera metáfora:</p>
+        <textarea id="retoInput" placeholder="Ejemplo: Este problema es como una puerta cerrada porque no puedo avanzar." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+      </div>
+    `;
+  }
+
+  function showPoetaStep2() {
+    const retoBox = document.getElementById('retoBox');
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Piensa como poeta</h2>
+        <p style="color: #666; margin-bottom: 10px; font-size: 1em; font-weight: 600;">Primera metáfora:</p>
+        <p style="color: #999; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[0]}</p>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Crea una segunda metáfora distinta:</p>
+        <p style="color: #666; margin-bottom: 10px; font-size: 0.95em;"><strong>Este problema es como ______ porque ______.</strong></p>
+        <textarea id="retoInput" placeholder="Escribe una metáfora diferente..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+      </div>
+    `;
+  }
+
+  function showPoetaStep3() {
+    const retoBox = document.getElementById('retoBox');
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Piensa como poeta</h2>
+        <p style="color: #666; margin-bottom: 10px; font-size: 1em; font-weight: 600;">Primera metáfora:</p>
+        <p style="color: #999; margin-bottom: 15px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[0]}</p>
+        <p style="color: #666; margin-bottom: 10px; font-size: 1em; font-weight: 600;">Segunda metáfora:</p>
+        <p style="color: #999; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[1]}</p>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Usa una de las metáforas para generar una nueva idea:</p>
+        <p style="color: #666; margin-bottom: 10px; font-size: 0.9em;">¿Qué nueva idea o perspectiva surge de estas metáforas?</p>
+        <textarea id="retoInput" placeholder="Escribe la nueva idea que surge..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 100px;"></textarea>
+        <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
+      </div>
+    `;
+  }
+
+  // HAZLO DISTINTO HOY
+  function showDistintoStep1() {
+    const retoBox = document.getElementById('retoBox');
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Hazlo distinto hoy</h2>
+        <p style="color: #666; margin-bottom: 20px; padding: 20px; background: #f0f0f0; border-radius: 8px; font-size: 1em; line-height: 1.6;">
+          <strong>Piensa en tu rutina diaria</strong><br><br>
+          Reflexiona sobre cómo es un día normal para ti. ¿Cuáles son tus hábitos? ¿En qué orden haces las cosas?
+        </p>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+      </div>
+    `;
+  }
+
+  function showDistintoStep2() {
+    const retoBox = document.getElementById('retoBox');
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Hazlo distinto hoy</h2>
+        <p style="color: #666; margin-bottom: 20px; padding: 20px; background: #f0f0f0; border-radius: 8px; font-size: 1em; line-height: 1.6;">
+          <strong>Cámbiala hoy, regresa al final del día</strong><br><br>
+          Durante este día, rompe tu rutina habitual. Haz al menos una cosa diferente. Luego, regresa aquí esta noche para anotar tus observaciones.
+        </p>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+      </div>
+    `;
+  }
+
+  function showDistintoStep3() {
+    const retoBox = document.getElementById('retoBox');
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Hazlo distinto hoy</h2>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Anota una idea o pensamiento nuevo que apareció:</p>
+        <p style="color: #666; margin-bottom: 10px; font-size: 0.9em;">¿Qué observaste, aprendiste, o pensaste diferente hoy?</p>
+        <textarea id="retoInput" placeholder="Escribe tus observaciones y pensamientos nuevos..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 120px;"></textarea>
+        <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
+      </div>
+    `;
+  }
+
+  function nextRetoStep() {
+    const input = document.getElementById('retoInput');
+    
+    // For distinto steps 1 and 2, no input validation needed (no textarea)
+    if (currentRetoType === 'distinto' && (currentRetoStep === 1 || currentRetoStep === 2)) {
+      retoAnswers.push('completed');
+      if (currentRetoStep === 1) {
+        showDistintoStep2();
+        currentRetoStep = 2;
+      } else if (currentRetoStep === 2) {
+        showDistintoStep3();
+        currentRetoStep = 3;
+      }
+      return;
+    }
+    
+    if (!input.value.trim()) {
+      alert('Por favor, escribe algo antes de continuar.');
+      return;
+    }
+
+    retoAnswers.push(input.value.trim());
+    
+    if (currentRetoType === 'torcida') {
+      if (currentRetoStep === 1) {
+        showTorcidaStep2();
+        currentRetoStep = 2;
+      } else if (currentRetoStep === 2) {
+        showTorcidaStep3();
+        currentRetoStep = 3;
+      } else if (currentRetoStep === 3) {
+        showTorcidaStep4();
+        currentRetoStep = 4;
+      } else if (currentRetoStep === 4) {
+        showTorcidaStep5();
+        currentRetoStep = 5;
+      }
+    } else if (currentRetoType === 'poeta') {
+      if (currentRetoStep === 1) {
+        showPoetaStep2();
+        currentRetoStep = 2;
+      } else if (currentRetoStep === 2) {
+        showPoetaStep3();
+        currentRetoStep = 3;
+      }
+    }
+  }
+
+  function finishReto() {
+    const input = document.getElementById('retoInput');
+    
+    if (!input.value.trim()) {
+      alert('Por favor, escribe algo antes de continuar.');
+      return;
+    }
+
+    if (currentRetoType === 'torcida' && currentRetoStep === 3) {
+      const lines = input.vale.trim().split('\n').filter(line => line.trim().length > 0);
+      if (lines.length < 3) {
+        alert('Por favor, anota mínimo 5 soluciones.');
+        return;
+      }
+    }
+
+    const retoBox = document.getElementById('retoBox');
+    let retoTitle = '';
+    
+    if (currentRetoType === 'torcida') {
+      retoTitle = 'La pregunta torcida';
+    } else if (currentRetoType === 'poeta') {
+      retoTitle = 'Piensa como poeta';
+    } else if (currentRetoType === 'distinto') {
+      retoTitle = 'Hazlo distinto hoy';
+    }
+    
+    retoBox.innerHTML = `
+      <div style="text-align: center;">
+        <h2 style="color: #333; margin-bottom: 20px;">Felicidades</h2>
+        <p style="color: #666; margin-bottom: 30px; font-size: 1.1em;">Has completado exitosamente "${retoTitle}".</p>
+        <button onclick="resetReto()" style="background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; font-size: 1em;">Volver a Inicio</button>
+      </div>
+    `;
+    
+    // Reset for next time
+    currentRetoStep = 0;
+    retoAnswers = [];
+    currentRetoType = '';
+  }
+
+  function resetReto() {
+    currentRetoStep = 0;
+    retoAnswers = [];
+    currentRetoType = '';
+    const retoBox = document.getElementById('retoBox');
+    retoBox.classList.remove('show');
   }
 </script>
-
-</body>
-</html>
