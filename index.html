@@ -13,12 +13,25 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Starfield Canvas */
+        #starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
         }
 
         .page-wrapper {
@@ -27,16 +40,19 @@
             flex-wrap: wrap;
             justify-content: center;
             max-width: 1300px;
+            position: relative;
+            z-index: 1;
         }
 
         .container {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             padding: 50px 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(100, 100, 255, 0.1);
             max-width: 600px;
             width: 100%;
             text-align: center;
+            backdrop-filter: blur(10px);
         }
 
         h1 {
@@ -138,6 +154,8 @@
     </style>
 </head>
 <body>
+    <canvas id="starfield"></canvas>
+    
     <div class="page-wrapper">
         <div class="container">
             <h1>Consejo</h1>
@@ -157,6 +175,196 @@
     </div>
 
 <script>
+  // ==================== STARFIELD ANIMATION ====================
+  const canvas = document.getElementById('starfield');
+  const ctx = canvas.getContext('2d');
+  
+  let stars = [];
+  let shootingStars = [];
+  const numStars = 200;
+  const numConstellationStars = 15;
+  let constellationStars = [];
+  
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    initStars();
+  }
+  
+  function initStars() {
+    stars = [];
+    constellationStars = [];
+    
+    // Regular twinkling stars
+    for (let i = 0; i < numStars; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 1.5 + 0.5,
+        opacity: Math.random(),
+        twinkleSpeed: Math.random() * 0.02 + 0.005,
+        twinkleDirection: Math.random() > 0.5 ? 1 : -1
+      });
+    }
+    
+    // Constellation stars (brighter, connected)
+    for (let i = 0; i < numConstellationStars; i++) {
+      constellationStars.push({
+        x: Math.random() * canvas.width * 0.6 + canvas.width * 0.2,
+        y: Math.random() * canvas.height * 0.6 + canvas.height * 0.2,
+        radius: Math.random() * 2 + 1.5,
+        opacity: Math.random() * 0.3 + 0.7,
+        twinkleSpeed: Math.random() * 0.01 + 0.005,
+        twinkleDirection: Math.random() > 0.5 ? 1 : -1,
+        vx: (Math.random() - 0.5) * 0.1,
+        vy: (Math.random() - 0.5) * 0.1
+      });
+    }
+  }
+  
+  function createShootingStar() {
+    if (Math.random() < 0.003) { // Occasional shooting star
+      shootingStars.push({
+        x: Math.random() * canvas.width,
+        y: 0,
+        length: Math.random() * 80 + 50,
+        speed: Math.random() * 8 + 6,
+        angle: Math.PI / 4 + (Math.random() - 0.5) * 0.3,
+        opacity: 1
+      });
+    }
+  }
+  
+  function drawStars() {
+    // Draw regular stars
+    stars.forEach(star => {
+      // Twinkle effect
+      star.opacity += star.twinkleSpeed * star.twinkleDirection;
+      if (star.opacity >= 1 || star.opacity <= 0.2) {
+        star.twinkleDirection *= -1;
+      }
+      
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+      ctx.fill();
+    });
+  }
+  
+  function drawConstellations() {
+    // Move constellation stars slightly
+    constellationStars.forEach(star => {
+      star.x += star.vx;
+      star.y += star.vy;
+      
+      // Bounce off edges gently
+      if (star.x < canvas.width * 0.1 || star.x > canvas.width * 0.9) star.vx *= -1;
+      if (star.y < canvas.height * 0.1 || star.y > canvas.height * 0.9) star.vy *= -1;
+      
+      // Twinkle
+      star.opacity += star.twinkleSpeed * star.twinkleDirection;
+      if (star.opacity >= 1 || star.opacity <= 0.5) {
+        star.twinkleDirection *= -1;
+      }
+    });
+    
+    // Draw connections between nearby constellation stars
+    ctx.strokeStyle = 'rgba(150, 180, 255, 0.15)';
+    ctx.lineWidth = 1;
+    
+    for (let i = 0; i < constellationStars.length; i++) {
+      for (let j = i + 1; j < constellationStars.length; j++) {
+        const dx = constellationStars[i].x - constellationStars[j].x;
+        const dy = constellationStars[i].y - constellationStars[j].y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance < 200) {
+          const opacity = (1 - distance / 200) * 0.3;
+          ctx.strokeStyle = `rgba(150, 180, 255, ${opacity})`;
+          ctx.beginPath();
+          ctx.moveTo(constellationStars[i].x, constellationStars[i].y);
+          ctx.lineTo(constellationStars[j].x, constellationStars[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+    
+    // Draw constellation stars with glow
+    constellationStars.forEach(star => {
+      // Glow effect
+      const gradient = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.radius * 4);
+      gradient.addColorStop(0, `rgba(200, 220, 255, ${star.opacity})`);
+      gradient.addColorStop(0.5, `rgba(150, 180, 255, ${star.opacity * 0.3})`);
+      gradient.addColorStop(1, 'rgba(150, 180, 255, 0)');
+      
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.radius * 4, 0, Math.PI * 2);
+      ctx.fillStyle = gradient;
+      ctx.fill();
+      
+      // Core star
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+      ctx.fill();
+    });
+  }
+  
+  function drawShootingStars() {
+    shootingStars = shootingStars.filter(star => {
+      star.x += Math.cos(star.angle) * star.speed;
+      star.y += Math.sin(star.angle) * star.speed;
+      star.opacity -= 0.01;
+      
+      if (star.opacity <= 0 || star.x > canvas.width || star.y > canvas.height) {
+        return false;
+      }
+      
+      // Draw shooting star trail
+      const gradient = ctx.createLinearGradient(
+        star.x, star.y,
+        star.x - Math.cos(star.angle) * star.length,
+        star.y - Math.sin(star.angle) * star.length
+      );
+      gradient.addColorStop(0, `rgba(255, 255, 255, ${star.opacity})`);
+      gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+      
+      ctx.beginPath();
+      ctx.moveTo(star.x, star.y);
+      ctx.lineTo(
+        star.x - Math.cos(star.angle) * star.length,
+        star.y - Math.sin(star.angle) * star.length
+      );
+      ctx.strokeStyle = gradient;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      
+      // Bright head
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, 2, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+      ctx.fill();
+      
+      return true;
+    });
+  }
+  
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    createShootingStar();
+    drawStars();
+    drawConstellations();
+    drawShootingStars();
+    
+    requestAnimationFrame(animate);
+  }
+  
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+  animate();
+
+  // ==================== ORIGINAL APP LOGIC ====================
   const tips = [
     "Capítulo 1 – La respuesta correcta: Las respuestas que obtienes dependen de las preguntas que hagas; formula la misma duda de varias formas para descubrir soluciones distintas.",
     "Capítulo 1 – La respuesta correcta: Juega con tus palabras para obtener diferentes respuestas; una técnica útil es pedir múltiples soluciones en vez de una sola.",
@@ -238,8 +446,41 @@
     adviceBox.classList.add('show');
   }
 
-  // Reto: La pregunta torcida & Piensa como poeta & Hazlo distinto hoy
-  const retos = ['torcida', 'poeta', 'distinto'];
+  // Reto: La pregunta torcida & Piensa como poeta & Hazlo distinto hoy & Jugar sin objetivo & Explorador curioso
+  const retos = ['torcida', 'poeta', 'distinto', 'jugar', 'explorador'];
+  const RETOS_STORAGE_KEY = "dailyAdvice_remainingRetos_v1";
+
+  function loadRemainingRetos() {
+    try {
+      const raw = localStorage.getItem(RETOS_STORAGE_KEY);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed) || parsed.some(r => typeof r !== "string")) return [];
+      return parsed;
+    } catch {
+      return [];
+    }
+  }
+
+  function saveRemainingRetos(arr) {
+    try {
+      localStorage.setItem(RETOS_STORAGE_KEY, JSON.stringify(arr));
+    } catch {
+      // If storage is blocked/full, it will just behave like non-persistent mode.
+    }
+  }
+
+  let remainingRetos = loadRemainingRetos();
+
+  function getNextReto() {
+    if (remainingRetos.length === 0) {
+      remainingRetos = shuffle([...retos]);
+    }
+    const reto = remainingRetos.pop();
+    saveRemainingRetos(remainingRetos);
+    return reto;
+  }
+
   let currentRetoType = '';
   let currentRetoStep = 0;
   let retoAnswers = [];
@@ -248,8 +489,8 @@
     const retoBox = document.getElementById('retoBox');
 
     if (currentRetoStep === 0) {
-      // Choose random reto
-      currentRetoType = retos[Math.floor(Math.random() * retos.length)];
+      // Get next reto from shuffled queue
+      currentRetoType = getNextReto();
       
       if (currentRetoType === 'torcida') {
         showTorcidaStep1();
@@ -257,6 +498,10 @@
         showPoetaStep1();
       } else if (currentRetoType === 'distinto') {
         showDistintoStep1();
+      } else if (currentRetoType === 'jugar') {
+        showJugarStep1();
+      } else if (currentRetoType === 'explorador') {
+        showExploradorStep1();
       }
       
       retoBox.classList.add('show');
@@ -443,6 +688,160 @@
     `;
   }
 
+  // JUGAR SIN OBJETIVO
+  let timerInterval = null;
+  let timeLeft = 120;
+
+  function showJugarStep1() {
+    const retoBox = document.getElementById('retoBox');
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Jugar sin objetivo</h2>
+        <p style="color: #666; margin-bottom: 20px; padding: 20px; background: #f0f0f0; border-radius: 8px; font-size: 1em; line-height: 1.6;">
+          <strong>Paso 1:</strong><br><br>
+          Toma un objeto cercano a ti. Puede ser cualquier cosa: una pluma, una taza, un clip, tu teléfono, etc.
+        </p>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Ya tengo un objeto</button>
+      </div>
+    `;
+  }
+
+  function showJugarStep2() {
+    const retoBox = document.getElementById('retoBox');
+    timeLeft = 120;
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Jugar sin objetivo</h2>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em; text-align: center;">
+          <strong>Paso 2:</strong> Juega con el objeto sin propósito
+        </p>
+        <div style="text-align: center; margin: 30px 0;">
+          <div id="timerDisplay" style="font-size: 3em; font-weight: bold; color: #FF4500; font-family: monospace;">2:00</div>
+          <p style="color: #999; margin-top: 10px; font-size: 0.9em;">Explora, gira, apila, lanza, equilibra... ¡sin objetivo!</p>
+        </div>
+        <div style="display: flex; gap: 10px; justify-content: center;">
+          <button id="timerBtn" onclick="toggleTimer()" style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; font-size: 1em;">Iniciar</button>
+          <button onclick="skipTimer()" style="background: linear-gradient(135deg, #888 0%, #666 100%); color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; font-size: 1em;">Saltar</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function toggleTimer() {
+    const btn = document.getElementById('timerBtn');
+    
+    if (timerInterval) {
+      // Pause
+      clearInterval(timerInterval);
+      timerInterval = null;
+      btn.textContent = 'Continuar';
+      btn.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
+    } else {
+      // Start/Resume
+      btn.textContent = 'Pausar';
+      btn.style.background = 'linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%)';
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          timerComplete();
+        }
+      }, 1000);
+    }
+  }
+
+  function updateTimerDisplay() {
+    const display = document.getElementById('timerDisplay');
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    display.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    
+    // Change color when low
+    if (timeLeft <= 10) {
+      display.style.color = '#ff0000';
+    } else if (timeLeft <= 30) {
+      display.style.color = '#ff6b6b';
+    }
+  }
+
+  function skipTimer() {
+    if (timerInterval) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+    timerComplete();
+  }
+
+  function timerComplete() {
+    retoAnswers.push('timer_completed');
+    showJugarStep3();
+    currentRetoStep = 3;
+  }
+
+  function showJugarStep3() {
+    const retoBox = document.getElementById('retoBox');
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Jugar sin objetivo</h2>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">
+          <strong>Paso 3:</strong> Relación con tu problema
+        </p>
+        <p style="color: #666; margin-bottom: 15px; font-size: 0.95em;">
+          Ahora, relaciona lo que hiciste con el objeto con algún problema que tengas. No importa si no tiene sentido lógico.
+        </p>
+        <p style="color: #999; margin-bottom: 15px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.85em; font-style: italic;">
+          Ejemplo: "Giré la pluma y pensé que mi problema también necesita verse desde otro ángulo."
+        </p>
+        <textarea id="retoInput" placeholder="Escribe la relación que encontraste..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 100px;"></textarea>
+        <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
+      </div>
+    `;
+  }
+
+  // EXPLORADOR CURIOSO
+  function showExploradorStep1() {
+    const retoBox = document.getElementById('retoBox');
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Explorador curioso</h2>
+        <p style="color: #666; margin-bottom: 20px; padding: 20px; background: #f0f0f0; border-radius: 8px; font-size: 1em; line-height: 1.8;">
+          <strong>Instrucciones:</strong><br><br>
+          1. Piensa en un área o profesión que <strong>no sea la tuya</strong>. Puede ser: medicina, arquitectura, cocina, deportes, música, jardinería, etc.<br><br>
+          2. Pregúntate: <strong>¿Cómo resolvería alguien de esa área mi problema?</strong>
+        </p>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Ya lo pensé</button>
+      </div>
+    `;
+  }
+
+  function showExploradorStep2() {
+    const retoBox = document.getElementById('retoBox');
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Explorador curioso</h2>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">
+          <strong>Escribe tu idea:</strong>
+        </p>
+        <p style="color: #666; margin-bottom: 15px; font-size: 0.95em;">
+          ¿Qué área elegiste y qué idea surgió al pensar cómo alguien de esa área resolvería tu problema?
+        </p>
+        <p style="color: #999; margin-bottom: 15px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.85em; font-style: italic;">
+          Ejemplo: "Elegí arquitectura. Un arquitecto primero haría planos antes de construir. Quizás necesito planear mejor antes de actuar."
+        </p>
+        <textarea id="retoInput" placeholder="Escribe el área que elegiste y la idea que surgió..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 120px;"></textarea>
+        <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Guardar idea</button>
+      </div>
+    `;
+  }
+
   function nextRetoStep() {
     const input = document.getElementById('retoInput');
     
@@ -456,6 +855,22 @@
         showDistintoStep3();
         currentRetoStep = 3;
       }
+      return;
+    }
+
+    // For jugar step 1, no input validation needed (no textarea)
+    if (currentRetoType === 'jugar' && currentRetoStep === 1) {
+      retoAnswers.push('has_object');
+      showJugarStep2();
+      currentRetoStep = 2;
+      return;
+    }
+
+    // For explorador step 1, no input validation needed (no textarea)
+    if (currentRetoType === 'explorador' && currentRetoStep === 1) {
+      retoAnswers.push('thought_complete');
+      showExploradorStep2();
+      currentRetoStep = 2;
       return;
     }
     
@@ -499,8 +914,8 @@
       return;
     }
 
-    if (currentRetoType === 'torcida' && currentRetoStep === 3) {
-      const lines = input.vale.trim().split('\n').filter(line => line.trim().length > 0);
+    if (currentRetoType === 'torcida' && currentRetoStep === 5) {
+      const lines = input.value.trim().split('\n').filter(line => line.trim().length > 0);
       if (lines.length < 3) {
         alert('Por favor, anota mínimo 5 soluciones.');
         return;
@@ -516,6 +931,10 @@
       retoTitle = 'Piensa como poeta';
     } else if (currentRetoType === 'distinto') {
       retoTitle = 'Hazlo distinto hoy';
+    } else if (currentRetoType === 'jugar') {
+      retoTitle = 'Jugar sin objetivo';
+    } else if (currentRetoType === 'explorador') {
+      retoTitle = 'Explorador curioso';
     }
     
     retoBox.innerHTML = `
@@ -536,7 +955,15 @@
     currentRetoStep = 0;
     retoAnswers = [];
     currentRetoType = '';
+    // Clean up timer if active
+    if (timerInterval) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+    timeLeft = 120;
     const retoBox = document.getElementById('retoBox');
     retoBox.classList.remove('show');
   }
 </script>
+</body>
+</html>
