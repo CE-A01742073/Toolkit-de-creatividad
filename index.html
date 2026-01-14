@@ -175,7 +175,6 @@
     </div>
 
 <script>
-  // ==================== STARFIELD ANIMATION ====================
   const canvas = document.getElementById('starfield');
   const ctx = canvas.getContext('2d');
   
@@ -195,7 +194,6 @@
     stars = [];
     constellationStars = [];
     
-    // Regular twinkling stars
     for (let i = 0; i < numStars; i++) {
       stars.push({
         x: Math.random() * canvas.width,
@@ -207,7 +205,6 @@
       });
     }
     
-    // Constellation stars (brighter, connected)
     for (let i = 0; i < numConstellationStars; i++) {
       constellationStars.push({
         x: Math.random() * canvas.width * 0.6 + canvas.width * 0.2,
@@ -223,7 +220,7 @@
   }
   
   function createShootingStar() {
-    if (Math.random() < 0.003) { // Occasional shooting star
+    if (Math.random() < 0.003) {
       shootingStars.push({
         x: Math.random() * canvas.width,
         y: 0,
@@ -236,9 +233,7 @@
   }
   
   function drawStars() {
-    // Draw regular stars
     stars.forEach(star => {
-      // Twinkle effect
       star.opacity += star.twinkleSpeed * star.twinkleDirection;
       if (star.opacity >= 1 || star.opacity <= 0.2) {
         star.twinkleDirection *= -1;
@@ -252,23 +247,20 @@
   }
   
   function drawConstellations() {
-    // Move constellation stars slightly
     constellationStars.forEach(star => {
       star.x += star.vx;
       star.y += star.vy;
       
-      // Bounce off edges gently
+
       if (star.x < canvas.width * 0.1 || star.x > canvas.width * 0.9) star.vx *= -1;
       if (star.y < canvas.height * 0.1 || star.y > canvas.height * 0.9) star.vy *= -1;
       
-      // Twinkle
       star.opacity += star.twinkleSpeed * star.twinkleDirection;
       if (star.opacity >= 1 || star.opacity <= 0.5) {
         star.twinkleDirection *= -1;
       }
     });
     
-    // Draw connections between nearby constellation stars
     ctx.strokeStyle = 'rgba(150, 180, 255, 0.15)';
     ctx.lineWidth = 1;
     
@@ -289,9 +281,7 @@
       }
     }
     
-    // Draw constellation stars with glow
     constellationStars.forEach(star => {
-      // Glow effect
       const gradient = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.radius * 4);
       gradient.addColorStop(0, `rgba(200, 220, 255, ${star.opacity})`);
       gradient.addColorStop(0.5, `rgba(150, 180, 255, ${star.opacity * 0.3})`);
@@ -320,7 +310,6 @@
         return false;
       }
       
-      // Draw shooting star trail
       const gradient = ctx.createLinearGradient(
         star.x, star.y,
         star.x - Math.cos(star.angle) * star.length,
@@ -339,7 +328,6 @@
       ctx.lineWidth = 2;
       ctx.stroke();
       
-      // Bright head
       ctx.beginPath();
       ctx.arc(star.x, star.y, 2, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
@@ -364,7 +352,6 @@
   resizeCanvas();
   animate();
 
-  // ==================== ORIGINAL APP LOGIC ====================
   const tips = [
     "Capítulo 1 – La respuesta correcta: Las respuestas que obtienes dependen de las preguntas que hagas; formula la misma duda de varias formas para descubrir soluciones distintas.",
     "Capítulo 1 – La respuesta correcta: Juega con tus palabras para obtener diferentes respuestas; una técnica útil es pedir múltiples soluciones en vez de una sola.",
