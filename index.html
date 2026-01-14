@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tool kit</title>
+    <meta name="toolkit" content="width=device-width, initial-scale=1.0">
+    <title>Daily Advice</title>
     <style>
         * {
             margin: 0;
@@ -23,6 +23,7 @@
             position: relative;
         }
 
+        /* Starfield Canvas */
         #starfield {
             position: fixed;
             top: 0;
@@ -44,7 +45,7 @@
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.95);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.75) 100%);
             border-radius: 20px;
             padding: 50px 40px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(100, 100, 255, 0.1);
@@ -61,7 +62,7 @@
         }
 
         .advice-button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #00b894 0%, #0984e3 100%);
             color: white;
             border: none;
             padding: 18px 40px;
@@ -75,7 +76,7 @@
 
         .advice-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 10px 25px rgba(9, 132, 227, 0.4);
         }
 
         .advice-button:active {
@@ -83,7 +84,7 @@
         }
 
         .reto-button {
-            background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%);
+            background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%);
             color: white;
             border: none;
             padding: 18px 40px;
@@ -97,7 +98,7 @@
 
         .reto-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(255, 165, 0, 0.4);
+            box-shadow: 0 10px 25px rgba(155, 89, 182, 0.4);
         }
 
         .reto-button:active {
@@ -105,8 +106,8 @@
         }
 
         .advice-box {
-            background: #f8f9fa;
-            border-left: 4px solid #667eea;
+            background: rgba(248, 249, 250, 0.9);
+            border-left: 4px solid #0984e3;
             padding: 25px;
             border-radius: 10px;
             min-height: 100px;
@@ -119,8 +120,8 @@
         }
 
         .reto-box {
-            background: #f8f9fa;
-            border-left: 4px solid #FFD700;
+            background: rgba(248, 249, 250, 0.9);
+            border-left: 4px solid #9b59b6;
             padding: 25px;
             border-radius: 10px;
             min-height: 100px;
@@ -174,6 +175,7 @@
     </div>
 
 <script>
+  // ==================== STARFIELD ANIMATION ====================
   const canvas = document.getElementById('starfield');
   const ctx = canvas.getContext('2d');
   
@@ -524,7 +526,7 @@
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">La pregunta torcida</h2>
         <p style="color: #666; margin-bottom: 15px; font-size: 1em;">¿Cuál es tu problema?</p>
         <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
-        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
   }
@@ -538,7 +540,7 @@
         <p style="color: #999; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[0]}</p>
         <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Reescribe tu problema cambiando las palabras:</p>
         <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
-        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
   }
@@ -552,7 +554,7 @@
         <p style="color: #999; margin-bottom: 15px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[1]}</p>
         <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Reescríbelo una vez más:</p>
         <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
-        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
   }
@@ -566,7 +568,7 @@
         <p style="color: #999; margin-bottom: 15px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[2]}</p>
         <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Una última versión:</p>
         <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
-        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
   }
@@ -580,7 +582,7 @@
         <p style="color: #999; margin-bottom: 15px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[3]}</p>
         <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Anota mínimo 5 soluciones:</p>
         <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 120px;"></textarea>
-        <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
+        <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
       </div>
     `;
   }
@@ -594,7 +596,7 @@
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Piensa como poeta</h2>
         <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Completa: "Este problema es como ______ porque ______"</p>
         <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
-        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
   }
@@ -608,7 +610,7 @@
         <p style="color: #999; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[0]}</p>
         <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Crea una segunda metáfora distinta:</p>
         <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
-        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
   }
@@ -623,7 +625,7 @@
         <p style="color: #999; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[1]}</p>
         <p style="color: #666; margin-bottom: 15px; font-size: 1em;">¿Qué nueva idea surge de estas metáforas?</p>
         <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 100px;"></textarea>
-        <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
+        <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
       </div>
     `;
   }
@@ -636,7 +638,7 @@
       <div style="text-align: left;">
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Hazlo distinto hoy</h2>
         <p style="color: #666; margin-bottom: 20px; font-size: 1em;">Piensa en tu rutina diaria.</p>
-        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
   }
@@ -648,7 +650,7 @@
       <div style="text-align: left;">
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Hazlo distinto hoy</h2>
         <p style="color: #666; margin-bottom: 20px; font-size: 1em;">Rompe tu rutina hoy. Haz algo diferente. Regresa después.</p>
-        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
   }
@@ -661,7 +663,7 @@
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Hazlo distinto hoy</h2>
         <p style="color: #666; margin-bottom: 15px; font-size: 1em;">¿Qué idea o pensamiento nuevo apareció?</p>
         <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 120px;"></textarea>
-        <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
+        <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
       </div>
     `;
   }
@@ -677,7 +679,7 @@
       <div style="text-align: left;">
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Jugar sin objetivo</h2>
         <p style="color: #666; margin-bottom: 20px; font-size: 1em;">Toma un objeto cercano.</p>
-        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
   }
@@ -763,7 +765,7 @@
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Jugar sin objetivo</h2>
         <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Relaciónalo con tu problema, aunque no tenga sentido:</p>
         <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 100px;"></textarea>
-        <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
+        <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
       </div>
     `;
   }
@@ -779,7 +781,7 @@
           1. Piensa en un área que no sea la tuya.<br>
           2. Pregúntate: ¿Cómo lo resolvería alguien de esa área?
         </p>
-        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
   }
@@ -792,7 +794,7 @@
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Explorador curioso</h2>
         <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Escribe la idea:</p>
         <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 120px;"></textarea>
-        <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
+        <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
       </div>
     `;
   }
@@ -806,7 +808,7 @@
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Instrucción ambigua</h2>
         <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Describe tu problema usando solo frases vagas:</p>
         <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 100px;"></textarea>
-        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
   }
@@ -820,7 +822,7 @@
         <p style="color: #999; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[0]}</p>
         <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Pídele a alguien una solución y escríbela:</p>
         <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 100px;"></textarea>
-        <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
+        <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
       </div>
     `;
   }
@@ -834,7 +836,7 @@
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">La pregunta obvia</h2>
         <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Escribe la pregunta más simple que se te ocurra:</p>
         <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
-        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
   }
@@ -848,7 +850,7 @@
         <p style="color: #999; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[0]}</p>
         <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Respóndela sin justificarte:</p>
         <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
-        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
   }
@@ -863,7 +865,7 @@
         <p style="color: #999; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[1]}</p>
         <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Busca algo que nadie más esté cuestionando:</p>
         <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
-        <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
+        <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
       </div>
     `;
   }
@@ -877,7 +879,7 @@
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Error productivo</h2>
         <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Recuerda un error reciente:</p>
         <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
-        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
   }
@@ -901,7 +903,7 @@
           <p style="color: #666; margin-bottom: 8px; font-size: 0.95em;">¿Qué oportunidad habría perdido si no fallaba?</p>
           <textarea id="retoInput3" placeholder="..." style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 0.95em; resize: vertical; min-height: 60px;"></textarea>
         </div>
-        <button onclick="finishErrorReto()" style="margin-top: 10px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
+        <button onclick="finishErrorReto()" style="margin-top: 10px; background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
       </div>
     `;
   }
@@ -937,7 +939,7 @@
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">La idea mínima</h2>
         <p style="color: #666; margin-bottom: 15px; font-size: 1em;">(${minimaIteration}/3) Escribe la idea más pequeña que tengas:</p>
         <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
-        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
   }
@@ -953,7 +955,7 @@
         <p style="color: #999; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${lastIdea}</p>
         <p style="color: #666; margin-bottom: 15px; font-size: 1em;">(${minimaIteration}/3) Agrega una mejora mínima:</p>
         <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
-        <button onclick="${isLastIteration ? 'finishMinimaFromButton()' : 'nextRetoStep()'}" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">${isLastIteration ? 'Finalizar' : 'Siguiente'}</button>
+        <button onclick="${isLastIteration ? 'finishMinimaFromButton()' : 'nextRetoStep()'}" style="margin-top: 15px; background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">${isLastIteration ? 'Finalizar' : 'Siguiente'}</button>
       </div>
     `;
   }
@@ -978,7 +980,7 @@
         <p style="color: #764ba2; margin-bottom: 30px; font-size: 1.3em; font-weight: 600; font-style: italic; padding: 20px; background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); border-radius: 10px;">
           "No busques grandeza, busca continuidad."
         </p>
-        <button onclick="resetReto()" style="background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; font-size: 1em;">Volver a Inicio</button>
+        <button onclick="resetReto()" style="background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; font-size: 1em;">Volver a Inicio</button>
       </div>
     `;
     
@@ -996,7 +998,7 @@
       <div style="text-align: center;">
         <h2 style="color: #333; margin-bottom: 20px;">¡Felicidades!</h2>
         <p style="color: #666; margin-bottom: 30px; font-size: 1.1em;">Has completado exitosamente "${retoTitle}".</p>
-        <button onclick="resetReto()" style="background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; font-size: 1em;">Volver a Inicio</button>
+        <button onclick="resetReto()" style="background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; font-size: 1em;">Volver a Inicio</button>
       </div>
     `;
     
@@ -1176,7 +1178,7 @@
       <div style="text-align: center;">
         <h2 style="color: #333; margin-bottom: 20px;">Felicidades</h2>
         <p style="color: #666; margin-bottom: 30px; font-size: 1.1em;">Has completado exitosamente "${retoTitle}".</p>
-        <button onclick="resetReto()" style="background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; font-size: 1em;">Volver a Inicio</button>
+        <button onclick="resetReto()" style="background: linear-gradient(135deg, #9b59b6 0%, #1a1a2e 100%); color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; font-size: 1em;">Volver a Inicio</button>
       </div>
     `;
     
