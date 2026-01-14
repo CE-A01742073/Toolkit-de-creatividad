@@ -21,6 +21,14 @@
             padding: 20px;
         }
 
+        .page-wrapper {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1300px;
+        }
+
         .container {
             background: white;
             border-radius: 20px;
@@ -59,6 +67,28 @@
             transform: translateY(0);
         }
 
+        .reto-button {
+            background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .reto-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 165, 0, 0.4);
+        }
+
+        .reto-button:active {
+            transform: translateY(0);
+        }
+
         .advice-box {
             background: #f8f9fa;
             border-left: 4px solid #667eea;
@@ -70,6 +100,20 @@
         }
 
         .advice-box.show {
+            display: block;
+        }
+
+        .reto-box {
+            background: #f8f9fa;
+            border-left: 4px solid #FFD700;
+            padding: 25px;
+            border-radius: 10px;
+            min-height: 100px;
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .reto-box.show {
             display: block;
         }
 
@@ -92,30 +136,116 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Consejo</h1>
-        <button class="advice-button" onclick="showAdvice()">click</button>
-        <div class="advice-box" id="adviceBox">
-            <p class="advice-text" id="adviceText"></p>
+    <div class="page-wrapper">
+        <div class="container">
+            <h1>Consejo</h1>
+            <button class="advice-button" onclick="showAdvice()">click</button>
+            <div class="advice-box" id="adviceBox">
+                <p class="advice-text" id="adviceText"></p>
+            </div>
+        </div>
+
+        <div class="container">
+            <h1>Reto</h1>
+            <button class="reto-button" onclick="showReto()">click</button>
+            <div class="reto-box" id="retoBox">
+                <p class="advice-text" id="retoText"></p>
+            </div>
         </div>
     </div>
 
-    <script>
-        const tips = [
-            "Tip 1",
-            "Tip 2",
-            "Tip 3"
-        ];
+<script>
+  const tips = [
+    "Capítulo 1 – La respuesta correcta: Las respuestas que obtienes dependen de las preguntas que hagas; formula la misma duda de varias formas para descubrir soluciones distintas.",
+    "Capítulo 1 – La respuesta correcta: Juega con tus palabras para obtener diferentes respuestas; una técnica útil es pedir múltiples soluciones en vez de una sola.",
+    "Capítulo 1 – La respuesta correcta: Haz preguntas que alteren el pensamiento de la gente (rompen el modo automático y obligan a replantear).",
+    "Capítulo 2 – Eso no tiene lógica: Usa la metáfora para pensar diferente; piensa como poeta, busca similitudes y crea una metáfora del problema para ganar una perspectiva nueva.",
+    "Capítulo 2 – Eso no tiene lógica: Busca metáforas a tu alrededor y pon atención a las metáforas que la gente usa para describir lo que hace.",
+    "Capítulo 2 – Eso no tiene lógica: Observa las metáforas que usas en tu mente; pueden ser valiosas, pero también pueden encarcelar tu pensamiento si no notas cuánto te guían.",
+    "Capítulo 2 – Eso no tiene lógica: Recuerda: este es un mundo ilógico; no todo tiene que cerrar perfecto para ser útil.",
+    "Capítulo 3 – Sigue las reglas: Usa metáforas para pensar en algo diferente (piensa como poeta) y así obtener una perspectiva nueva.",
+    "Capítulo 3 – Sigue las reglas: Presta atención a las metáforas que usan los demás para describir lo que están haciendo; ahí hay pistas de cómo piensan.",
+    "Capítulo 3 – Sigue las reglas: Identifica las metáforas que estás usando en tu propia cabeza; a veces esas son las que encierran tus ideas.",
+    "Capítulo 3 – Sigue las reglas: Acepta que vivimos en un mundo ilógico; las cosas no se nombran por precisión, sino para poder darles sentido.",
+    "Capítulo 4 – Sé práctico: Rompe rutinas diarias para estimular tu creatividad y ver los problemas desde perspectivas nuevas.",
+    "Capítulo 4 – Sé práctico: Cuestiona tus reglas personales y elimina las que ya no aportan, para pensar con mayor libertad.",
+    "Capítulo 5 – Jugar es frívolo: Cuando tengas un problema, juégalo; trátalo como un objeto para experimentar, mover, combinar y probar.",
+    "Capítulo 5 – Jugar es frívolo: Aunque no tengas un problema, juega igual; puede detonar ideas nuevas que no salen cuando solo piensas en serio.",
+    "Capítulo 6 – Esa no es mi área: Adopta actitud de explorador; dondequiera que vayas, hay ideas esperando ser descubiertas.",
+    "Capítulo 6 – Esa no es mi área: No te ocupes tanto que pierdas el tiempo libre necesario para explorar (la exploración también es trabajo creativo).",
+    "Capítulo 6 – Esa no es mi área: Cuando captures una idea, escríbela de inmediato para que no se pierda.",
+    "Capítulo 6 – Esa no es mi área: Pregúntate: ¿Qué recursos y soluciones tengo que estoy asumiendo?, ¿Qué estoy pasando por alto?.",
+    "Capítulo 7 – Evitar la ambigüedad: Aprovecha la ambigüedad; en vez de ver algo solo por lo que es, piensa en lo que podría ser.",
+    "Capítulo 7 – Evitar la ambigüedad: Si quieres ayuda para resolver algo, exprésalo de manera ambigua a propósito para no restringir la imaginación de los demás.",
+    "Capítulo 7 – Evitar la ambigüedad: Permite que la información inesperada estimule tu imaginación en lugar de rechazarla por no encajar.",
+    "Capítulo 8 – No parecer tonto: Atrévete a pensar diferente aunque al inicio parezca incorrecto o raro.",
+    "Capítulo 8 – No parecer tonto: Haz preguntas simples para descubrir lo que otros dan por hecho y pasan por alto.",
+    "Capítulo 8 – No parecer tonto: Cuestiona reglas y costumbres antes de aceptarlas como la única manera.",
+    "Capítulo 9 – Equivocarse es malo: Si cometes un error, úsalo como trampolín hacia una idea que de otro modo no habrías descubierto.",
+    "Capítulo 9 – Equivocarse es malo: Distingue entre errores de comisión y de omisión; no intentar algo puede costar más que equivocarte; si casi no te equivocas, pregúntate cuántas oportunidades estás dejando pasar por no ser más agresivo.",
+    "Capítulo 9 – Equivocarse es malo: Antes de lanzarte a una idea o proyecto, pregúntate: ¿Qué cosas malas pueden pasar si tenemos éxito?.",
+    "Capítulo 10 – No soy creativo: Oblígate a probar cosas nuevas y a desarrollar lo que encuentres, sobre todo las ideas pequeñas; la creatividad es tener fe en que esas ideas pequeñas pueden crecer hasta volverse algo grande."
+  ];
 
-        function showAdvice() {
-            const adviceBox = document.getElementById('adviceBox');
-            const adviceText = document.getElementById('adviceText');
-            
-            const randomTip = tips[Math.floor(Math.random() * tips.length)];
-            
-            adviceText.textContent = randomTip;
-            adviceBox.classList.add('show');
-        }
-    </script>
+  const STORAGE_KEY = "dailyAdvice_remainingTips_v1";
+
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  function loadRemainingTips() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      // basic validation: must be an array of strings
+      if (!Array.isArray(parsed) || parsed.some(t => typeof t !== "string")) return [];
+      return parsed;
+    } catch {
+      return [];
+    }
+  }
+
+  function saveRemainingTips(arr) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+    } catch {
+      // If storage is blocked/full, it will just behave like non-persistent mode.
+    }
+  }
+
+  let remainingTips = loadRemainingTips();
+
+  function getNextTip() {
+    if (remainingTips.length === 0) {
+      remainingTips = shuffle([...tips]);
+    }
+    const tip = remainingTips.pop();
+    saveRemainingTips(remainingTips);
+    return tip;
+  }
+
+  function showAdvice() {
+    const adviceBox = document.getElementById('adviceBox');
+    const adviceText = document.getElementById('adviceText');
+
+    adviceText.textContent = getNextTip();
+    adviceBox.classList.add('show');
+  }
+
+  function showReto() {
+    // Placeholder for future functionality
+    const retoBox = document.getElementById('retoBox');
+    const retoText = document.getElementById('retoText');
+
+    retoText.textContent = "Funcionalidad temporal";
+    retoBox.classList.add('show');
+  }
+</script>
+
 </body>
 </html>
