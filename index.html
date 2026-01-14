@@ -446,8 +446,8 @@
     adviceBox.classList.add('show');
   }
 
-  // Reto: La pregunta torcida & Piensa como poeta & Hazlo distinto hoy & Jugar sin objetivo & Explorador curioso
-  const retos = ['torcida', 'poeta', 'distinto', 'jugar', 'explorador'];
+  // Reto: La pregunta torcida & Piensa como poeta & Hazlo distinto hoy & Jugar sin objetivo & Explorador curioso & Instrucción ambigua & La pregunta obvia & Error productivo & La idea mínima
+  const retos = ['torcida', 'poeta', 'distinto', 'jugar', 'explorador', 'ambigua', 'obvia', 'error', 'minima'];
   const RETOS_STORAGE_KEY = "dailyAdvice_remainingRetos_v1";
 
   function loadRemainingRetos() {
@@ -502,6 +502,14 @@
         showJugarStep1();
       } else if (currentRetoType === 'explorador') {
         showExploradorStep1();
+      } else if (currentRetoType === 'ambigua') {
+        showAmbiguaStep1();
+      } else if (currentRetoType === 'obvia') {
+        showObviaStep1();
+      } else if (currentRetoType === 'error') {
+        showErrorStep1();
+      } else if (currentRetoType === 'minima') {
+        showMinimaStep1();
       }
       
       retoBox.classList.add('show');
@@ -517,7 +525,7 @@
       <div style="text-align: left;">
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">La pregunta torcida</h2>
         <p style="color: #666; margin-bottom: 15px; font-size: 1em;">¿Cuál es tu problema?</p>
-        <textarea id="retoInput" placeholder="Escribe tu problema aquí..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
+        <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
         <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
@@ -529,10 +537,9 @@
     retoBox.innerHTML = `
       <div style="text-align: left;">
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">La pregunta torcida</h2>
-        <p style="color: #666; margin-bottom: 10px; font-size: 1em; font-weight: 600;">Primera versión:</p>
         <p style="color: #999; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[0]}</p>
         <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Reescribe tu problema cambiando las palabras:</p>
-        <textarea id="retoInput" placeholder="Escribe una nueva versión..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
+        <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
         <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
@@ -544,12 +551,9 @@
     retoBox.innerHTML = `
       <div style="text-align: left;">
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">La pregunta torcida</h2>
-        <p style="color: #666; margin-bottom: 10px; font-size: 1em; font-weight: 600;">Primera versión:</p>
-        <p style="color: #999; margin-bottom: 15px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[0]}</p>
-        <p style="color: #666; margin-bottom: 10px; font-size: 1em; font-weight: 600;">Segunda versión:</p>
-        <p style="color: #999; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[1]}</p>
-        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Reescribe tu problema cambiando las palabras una vez más:</p>
-        <textarea id="retoInput" placeholder="Escribe una nueva versión..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
+        <p style="color: #999; margin-bottom: 15px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[1]}</p>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Reescríbelo una vez más:</p>
+        <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
         <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
@@ -561,14 +565,9 @@
     retoBox.innerHTML = `
       <div style="text-align: left;">
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">La pregunta torcida</h2>
-        <p style="color: #666; margin-bottom: 10px; font-size: 1em; font-weight: 600;">Primera versión:</p>
-        <p style="color: #999; margin-bottom: 15px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[0]}</p>
-        <p style="color: #666; margin-bottom: 10px; font-size: 1em; font-weight: 600;">Segunda versión:</p>
-        <p style="color: #999; margin-bottom: 15px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[1]}</p>
-        <p style="color: #666; margin-bottom: 10px; font-size: 1em; font-weight: 600;">Tercera versión:</p>
-        <p style="color: #999; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[2]}</p>
-        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Una última versión, cambiando las palabras:</p>
-        <textarea id="retoInput" placeholder="Escribe una nueva versión..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
+        <p style="color: #999; margin-bottom: 15px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[2]}</p>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Una última versión:</p>
+        <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
         <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
@@ -580,14 +579,9 @@
     retoBox.innerHTML = `
       <div style="text-align: left;">
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">La pregunta torcida</h2>
-        <p style="color: #666; margin-bottom: 20px; font-size: 1em;">
-          <strong>¿Cuáles podrían ser las soluciones a tu problema?</strong>
-        </p>
-        <p style="color: #999; margin-bottom: 15px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.9em; line-height: 1.5;">
-          <strong>Última versión de tu pregunta:</strong><br>${retoAnswers[3]}
-        </p>
-        <p style="color: #666; margin-bottom: 10px; font-size: 0.95em;">Anota mínimo 5 soluciones (una por línea):</p>
-        <textarea id="retoInput" placeholder="1. Primera solución&#10;2. Segunda solución&#10;3. Tercera solución&#10;..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 120px;"></textarea>
+        <p style="color: #999; margin-bottom: 15px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[3]}</p>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Anota mínimo 5 soluciones:</p>
+        <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 120px;"></textarea>
         <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
       </div>
     `;
@@ -600,10 +594,8 @@
     retoBox.innerHTML = `
       <div style="text-align: left;">
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Piensa como poeta</h2>
-        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Completa la frase:</p>
-        <p style="color: #666; margin-bottom: 10px; font-size: 0.95em;"><strong>Este problema es como ______ porque ______.</strong></p>
-        <p style="color: #666; margin-bottom: 15px; font-size: 0.9em;">Primera metáfora:</p>
-        <textarea id="retoInput" placeholder="Ejemplo: Este problema es como una puerta cerrada porque no puedo avanzar." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Completa: "Este problema es como ______ porque ______"</p>
+        <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
         <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
@@ -615,11 +607,9 @@
     retoBox.innerHTML = `
       <div style="text-align: left;">
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Piensa como poeta</h2>
-        <p style="color: #666; margin-bottom: 10px; font-size: 1em; font-weight: 600;">Primera metáfora:</p>
         <p style="color: #999; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[0]}</p>
         <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Crea una segunda metáfora distinta:</p>
-        <p style="color: #666; margin-bottom: 10px; font-size: 0.95em;"><strong>Este problema es como ______ porque ______.</strong></p>
-        <textarea id="retoInput" placeholder="Escribe una metáfora diferente..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
+        <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
         <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
@@ -631,13 +621,10 @@
     retoBox.innerHTML = `
       <div style="text-align: left;">
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Piensa como poeta</h2>
-        <p style="color: #666; margin-bottom: 10px; font-size: 1em; font-weight: 600;">Primera metáfora:</p>
         <p style="color: #999; margin-bottom: 15px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[0]}</p>
-        <p style="color: #666; margin-bottom: 10px; font-size: 1em; font-weight: 600;">Segunda metáfora:</p>
         <p style="color: #999; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[1]}</p>
-        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Usa una de las metáforas para generar una nueva idea:</p>
-        <p style="color: #666; margin-bottom: 10px; font-size: 0.9em;">¿Qué nueva idea o perspectiva surge de estas metáforas?</p>
-        <textarea id="retoInput" placeholder="Escribe la nueva idea que surge..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 100px;"></textarea>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">¿Qué nueva idea surge de estas metáforas?</p>
+        <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 100px;"></textarea>
         <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
       </div>
     `;
@@ -650,10 +637,7 @@
     retoBox.innerHTML = `
       <div style="text-align: left;">
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Hazlo distinto hoy</h2>
-        <p style="color: #666; margin-bottom: 20px; padding: 20px; background: #f0f0f0; border-radius: 8px; font-size: 1em; line-height: 1.6;">
-          <strong>Piensa en tu rutina diaria</strong><br><br>
-          Reflexiona sobre cómo es un día normal para ti. ¿Cuáles son tus hábitos? ¿En qué orden haces las cosas?
-        </p>
+        <p style="color: #666; margin-bottom: 20px; font-size: 1em;">Piensa en tu rutina diaria.</p>
         <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
@@ -665,10 +649,7 @@
     retoBox.innerHTML = `
       <div style="text-align: left;">
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Hazlo distinto hoy</h2>
-        <p style="color: #666; margin-bottom: 20px; padding: 20px; background: #f0f0f0; border-radius: 8px; font-size: 1em; line-height: 1.6;">
-          <strong>Cámbiala hoy, regresa al final del día</strong><br><br>
-          Durante este día, rompe tu rutina habitual. Haz al menos una cosa diferente. Luego, regresa aquí esta noche para anotar tus observaciones.
-        </p>
+        <p style="color: #666; margin-bottom: 20px; font-size: 1em;">Rompe tu rutina hoy. Haz algo diferente. Regresa después.</p>
         <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
@@ -680,9 +661,8 @@
     retoBox.innerHTML = `
       <div style="text-align: left;">
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Hazlo distinto hoy</h2>
-        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Anota una idea o pensamiento nuevo que apareció:</p>
-        <p style="color: #666; margin-bottom: 10px; font-size: 0.9em;">¿Qué observaste, aprendiste, o pensaste diferente hoy?</p>
-        <textarea id="retoInput" placeholder="Escribe tus observaciones y pensamientos nuevos..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 120px;"></textarea>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">¿Qué idea o pensamiento nuevo apareció?</p>
+        <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 120px;"></textarea>
         <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
       </div>
     `;
@@ -698,11 +678,8 @@
     retoBox.innerHTML = `
       <div style="text-align: left;">
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Jugar sin objetivo</h2>
-        <p style="color: #666; margin-bottom: 20px; padding: 20px; background: #f0f0f0; border-radius: 8px; font-size: 1em; line-height: 1.6;">
-          <strong>Paso 1:</strong><br><br>
-          Toma un objeto cercano a ti. Puede ser cualquier cosa: una pluma, una taza, un clip, tu teléfono, etc.
-        </p>
-        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Ya tengo un objeto</button>
+        <p style="color: #666; margin-bottom: 20px; font-size: 1em;">Toma un objeto cercano.</p>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
   }
@@ -714,12 +691,9 @@
     retoBox.innerHTML = `
       <div style="text-align: left;">
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Jugar sin objetivo</h2>
-        <p style="color: #666; margin-bottom: 15px; font-size: 1em; text-align: center;">
-          <strong>Paso 2:</strong> Juega con el objeto sin propósito
-        </p>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em; text-align: center;">Juega con él sin propósito durante 2 minutos.</p>
         <div style="text-align: center; margin: 30px 0;">
           <div id="timerDisplay" style="font-size: 3em; font-weight: bold; color: #FF4500; font-family: monospace;">2:00</div>
-          <p style="color: #999; margin-top: 10px; font-size: 0.9em;">Explora, gira, apila, lanza, equilibra... ¡sin objetivo!</p>
         </div>
         <div style="display: flex; gap: 10px; justify-content: center;">
           <button id="timerBtn" onclick="toggleTimer()" style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; font-size: 1em;">Iniciar</button>
@@ -789,16 +763,8 @@
     retoBox.innerHTML = `
       <div style="text-align: left;">
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Jugar sin objetivo</h2>
-        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">
-          <strong>Paso 3:</strong> Relación con tu problema
-        </p>
-        <p style="color: #666; margin-bottom: 15px; font-size: 0.95em;">
-          Ahora, relaciona lo que hiciste con el objeto con algún problema que tengas. No importa si no tiene sentido lógico.
-        </p>
-        <p style="color: #999; margin-bottom: 15px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.85em; font-style: italic;">
-          Ejemplo: "Giré la pluma y pensé que mi problema también necesita verse desde otro ángulo."
-        </p>
-        <textarea id="retoInput" placeholder="Escribe la relación que encontraste..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 100px;"></textarea>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Relaciónalo con tu problema, aunque no tenga sentido:</p>
+        <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 100px;"></textarea>
         <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
       </div>
     `;
@@ -811,12 +777,11 @@
     retoBox.innerHTML = `
       <div style="text-align: left;">
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Explorador curioso</h2>
-        <p style="color: #666; margin-bottom: 20px; padding: 20px; background: #f0f0f0; border-radius: 8px; font-size: 1em; line-height: 1.8;">
-          <strong>Instrucciones:</strong><br><br>
-          1. Piensa en un área o profesión que <strong>no sea la tuya</strong>. Puede ser: medicina, arquitectura, cocina, deportes, música, jardinería, etc.<br><br>
-          2. Pregúntate: <strong>¿Cómo resolvería alguien de esa área mi problema?</strong>
+        <p style="color: #666; margin-bottom: 20px; font-size: 1em; line-height: 1.8;">
+          1. Piensa en un área que no sea la tuya.<br>
+          2. Pregúntate: ¿Cómo lo resolvería alguien de esa área?
         </p>
-        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Ya lo pensé</button>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
       </div>
     `;
   }
@@ -827,19 +792,220 @@
     retoBox.innerHTML = `
       <div style="text-align: left;">
         <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Explorador curioso</h2>
-        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">
-          <strong>Escribe tu idea:</strong>
-        </p>
-        <p style="color: #666; margin-bottom: 15px; font-size: 0.95em;">
-          ¿Qué área elegiste y qué idea surgió al pensar cómo alguien de esa área resolvería tu problema?
-        </p>
-        <p style="color: #999; margin-bottom: 15px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.85em; font-style: italic;">
-          Ejemplo: "Elegí arquitectura. Un arquitecto primero haría planos antes de construir. Quizás necesito planear mejor antes de actuar."
-        </p>
-        <textarea id="retoInput" placeholder="Escribe el área que elegiste y la idea que surgió..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 120px;"></textarea>
-        <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Guardar idea</button>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Escribe la idea:</p>
+        <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 120px;"></textarea>
+        <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
       </div>
     `;
+  }
+
+  // INSTRUCCIÓN AMBIGUA
+  function showAmbiguaStep1() {
+    const retoBox = document.getElementById('retoBox');
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Instrucción ambigua</h2>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Describe tu problema usando solo frases vagas:</p>
+        <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 100px;"></textarea>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+      </div>
+    `;
+  }
+
+  function showAmbiguaStep2() {
+    const retoBox = document.getElementById('retoBox');
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Instrucción ambigua</h2>
+        <p style="color: #999; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[0]}</p>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Pídele a alguien una solución y escríbela:</p>
+        <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 100px;"></textarea>
+        <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
+      </div>
+    `;
+  }
+
+  // LA PREGUNTA OBVIA
+  function showObviaStep1() {
+    const retoBox = document.getElementById('retoBox');
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">La pregunta obvia</h2>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Escribe la pregunta más simple que se te ocurra:</p>
+        <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+      </div>
+    `;
+  }
+
+  function showObviaStep2() {
+    const retoBox = document.getElementById('retoBox');
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">La pregunta obvia</h2>
+        <p style="color: #999; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[0]}</p>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Respóndela sin justificarte:</p>
+        <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+      </div>
+    `;
+  }
+
+  function showObviaStep3() {
+    const retoBox = document.getElementById('retoBox');
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">La pregunta obvia</h2>
+        <p style="color: #999; margin-bottom: 15px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[0]}</p>
+        <p style="color: #999; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[1]}</p>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Busca algo que nadie más esté cuestionando:</p>
+        <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
+        <button onclick="finishReto()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
+      </div>
+    `;
+  }
+
+  // ERROR PRODUCTIVO
+  function showErrorStep1() {
+    const retoBox = document.getElementById('retoBox');
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Error productivo</h2>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">Recuerda un error reciente:</p>
+        <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+      </div>
+    `;
+  }
+
+  function showErrorStep2() {
+    const retoBox = document.getElementById('retoBox');
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Error productivo</h2>
+        <p style="color: #999; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${retoAnswers[0]}</p>
+        <div style="margin-bottom: 15px;">
+          <p style="color: #666; margin-bottom: 8px; font-size: 0.95em;">¿Qué aprendí?</p>
+          <textarea id="retoInput1" placeholder="..." style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 0.95em; resize: vertical; min-height: 60px;"></textarea>
+        </div>
+        <div style="margin-bottom: 15px;">
+          <p style="color: #666; margin-bottom: 8px; font-size: 0.95em;">¿Qué idea surgió gracias a él?</p>
+          <textarea id="retoInput2" placeholder="..." style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 0.95em; resize: vertical; min-height: 60px;"></textarea>
+        </div>
+        <div style="margin-bottom: 15px;">
+          <p style="color: #666; margin-bottom: 8px; font-size: 0.95em;">¿Qué oportunidad habría perdido si no fallaba?</p>
+          <textarea id="retoInput3" placeholder="..." style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 0.95em; resize: vertical; min-height: 60px;"></textarea>
+        </div>
+        <button onclick="finishErrorReto()" style="margin-top: 10px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Finalizar</button>
+      </div>
+    `;
+  }
+
+  function finishErrorReto() {
+    const input1 = document.getElementById('retoInput1');
+    const input2 = document.getElementById('retoInput2');
+    const input3 = document.getElementById('retoInput3');
+    
+    if (!input1.value.trim() || !input2.value.trim() || !input3.value.trim()) {
+      alert('Por favor, completa las tres reflexiones antes de continuar.');
+      return;
+    }
+    
+    retoAnswers.push({
+      aprendizaje: input1.value.trim(),
+      idea: input2.value.trim(),
+      oportunidad: input3.value.trim()
+    });
+    
+    finishRetoWithMessage('Error productivo');
+  }
+
+  // LA IDEA MÍNIMA
+  let minimaIteration = 0;
+
+  function showMinimaStep1() {
+    const retoBox = document.getElementById('retoBox');
+    minimaIteration = 1;
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">La idea mínima</h2>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">(${minimaIteration}/3) Escribe la idea más pequeña que tengas:</p>
+        <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
+        <button onclick="nextRetoStep()" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">Siguiente</button>
+      </div>
+    `;
+  }
+
+  function showMinimaIteration() {
+    const retoBox = document.getElementById('retoBox');
+    const lastIdea = retoAnswers[retoAnswers.length - 1];
+    const isLastIteration = minimaIteration === 3;
+    
+    retoBox.innerHTML = `
+      <div style="text-align: left;">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">La idea mínima</h2>
+        <p style="color: #999; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; font-size: 0.95em;">${lastIdea}</p>
+        <p style="color: #666; margin-bottom: 15px; font-size: 1em;">(${minimaIteration}/3) Agrega una mejora mínima:</p>
+        <textarea id="retoInput" placeholder="..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1em; resize: vertical; min-height: 80px;"></textarea>
+        <button onclick="${isLastIteration ? 'finishMinimaFromButton()' : 'nextRetoStep()'}" style="margin-top: 15px; background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%;">${isLastIteration ? 'Finalizar' : 'Siguiente'}</button>
+      </div>
+    `;
+  }
+
+  function finishMinimaFromButton() {
+    const input = document.getElementById('retoInput');
+    if (!input.value.trim()) {
+      alert('Por favor, escribe algo antes de continuar.');
+      return;
+    }
+    retoAnswers.push(input.value.trim());
+    finishMinimaReto();
+  }
+
+  function finishMinimaReto() {
+    const retoBox = document.getElementById('retoBox');
+    
+    retoBox.innerHTML = `
+      <div style="text-align: center;">
+        <h2 style="color: #333; margin-bottom: 20px;">¡Felicidades!</h2>
+        <p style="color: #666; margin-bottom: 20px; font-size: 1.1em;">Has completado exitosamente "La idea mínima".</p>
+        <p style="color: #764ba2; margin-bottom: 30px; font-size: 1.3em; font-weight: 600; font-style: italic; padding: 20px; background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); border-radius: 10px;">
+          "No busques grandeza, busca continuidad."
+        </p>
+        <button onclick="resetReto()" style="background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; font-size: 1em;">Volver a Inicio</button>
+      </div>
+    `;
+    
+    // Reset for next time
+    currentRetoStep = 0;
+    retoAnswers = [];
+    currentRetoType = '';
+    minimaIteration = 0;
+  }
+
+  function finishRetoWithMessage(retoTitle) {
+    const retoBox = document.getElementById('retoBox');
+    
+    retoBox.innerHTML = `
+      <div style="text-align: center;">
+        <h2 style="color: #333; margin-bottom: 20px;">¡Felicidades!</h2>
+        <p style="color: #666; margin-bottom: 30px; font-size: 1.1em;">Has completado exitosamente "${retoTitle}".</p>
+        <button onclick="resetReto()" style="background: linear-gradient(135deg, #FFD700 0%, #FF4500 100%); color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; font-size: 1em;">Volver a Inicio</button>
+      </div>
+    `;
+    
+    // Reset for next time
+    currentRetoStep = 0;
+    retoAnswers = [];
+    currentRetoType = '';
   }
 
   function nextRetoStep() {
@@ -871,6 +1037,69 @@
       retoAnswers.push('thought_complete');
       showExploradorStep2();
       currentRetoStep = 2;
+      return;
+    }
+
+    // For ambigua steps
+    if (currentRetoType === 'ambigua') {
+      if (!document.getElementById('retoInput').value.trim()) {
+        alert('Por favor, escribe algo antes de continuar.');
+        return;
+      }
+      retoAnswers.push(document.getElementById('retoInput').value.trim());
+      if (currentRetoStep === 1) {
+        showAmbiguaStep2();
+        currentRetoStep = 2;
+      }
+      return;
+    }
+
+    // For obvia steps
+    if (currentRetoType === 'obvia') {
+      if (!document.getElementById('retoInput').value.trim()) {
+        alert('Por favor, escribe algo antes de continuar.');
+        return;
+      }
+      retoAnswers.push(document.getElementById('retoInput').value.trim());
+      if (currentRetoStep === 1) {
+        showObviaStep2();
+        currentRetoStep = 2;
+      } else if (currentRetoStep === 2) {
+        showObviaStep3();
+        currentRetoStep = 3;
+      }
+      return;
+    }
+
+    // For error steps
+    if (currentRetoType === 'error') {
+      if (!document.getElementById('retoInput').value.trim()) {
+        alert('Por favor, escribe algo antes de continuar.');
+        return;
+      }
+      retoAnswers.push(document.getElementById('retoInput').value.trim());
+      if (currentRetoStep === 1) {
+        showErrorStep2();
+        currentRetoStep = 2;
+      }
+      return;
+    }
+
+    // For minima steps
+    if (currentRetoType === 'minima') {
+      if (!document.getElementById('retoInput').value.trim()) {
+        alert('Por favor, escribe algo antes de continuar.');
+        return;
+      }
+      retoAnswers.push(document.getElementById('retoInput').value.trim());
+      minimaIteration++;
+      if (minimaIteration <= 3) {
+        showMinimaIteration();
+        currentRetoStep = minimaIteration;
+      }
+      if (minimaIteration > 3) {
+        finishMinimaReto();
+      }
       return;
     }
     
@@ -935,6 +1164,14 @@
       retoTitle = 'Jugar sin objetivo';
     } else if (currentRetoType === 'explorador') {
       retoTitle = 'Explorador curioso';
+    } else if (currentRetoType === 'ambigua') {
+      retoTitle = 'Instrucción ambigua';
+    } else if (currentRetoType === 'obvia') {
+      retoTitle = 'La pregunta obvia';
+    } else if (currentRetoType === 'error') {
+      retoTitle = 'Error productivo';
+    } else if (currentRetoType === 'minima') {
+      retoTitle = 'La idea mínima';
     }
     
     retoBox.innerHTML = `
@@ -955,6 +1192,7 @@
     currentRetoStep = 0;
     retoAnswers = [];
     currentRetoType = '';
+    minimaIteration = 0;
     // Clean up timer if active
     if (timerInterval) {
       clearInterval(timerInterval);
